@@ -1,64 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    deployment.kubernetes.io/revision: "2"
-  creationTimestamp: "2026-02-07T05:40:29Z"
-  generation: 3
-  labels:
-    app: webapp
   name: webapp
   namespace: test-app
-  resourceVersion: "39917"
-  uid: 61868ddd-8186-45b0-b98a-19e6c687132c
 spec:
-  progressDeadlineSeconds: 600
-  replicas: 1
-  revisionHistoryLimit: 10
+  replicas: 2
   selector:
     matchLabels:
-      app: webapp
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+      app: nginx
   template:
     metadata:
       labels:
-        app: webapp
+        app: nginx
     spec:
       containers:
-      - image: nginx
-        imagePullPolicy: Always
-        name: nginx
+      - name: nginx
+        image: nginx:latest  # Will be replaced by ECR image in CI/CD
+        ports:
+        - containerPort: 80
         resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
           limits:
-            cpu: 200m
-            memory: 512Mi
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
-status:
-  availableReplicas: 1
-  conditions:
-  - lastTransitionTime: "2026-02-07T05:41:19Z"
-    lastUpdateTime: "2026-02-07T05:41:19Z"
-    message: Deployment has minimum availability.
-    reason: MinimumReplicasAvailable
-    status: "True"
-    type: Available
-  - lastTransitionTime: "2026-02-07T05:40:29Z"
-    lastUpdateTime: "2026-02-07T05:52:41Z"
-    message: ReplicaSet "webapp-85f8cbb4f7" has successfully progressed.
-    reason: NewReplicaSetAvailable
-    status: "True"
-    type: Progressing
-  observedGeneration: 3
-  readyReplicas: 1
-  replicas: 1
-  updatedReplicas: 1
+            memory: "128Mi"
+            cpu: "500m"

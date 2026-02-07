@@ -1,28 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: "2026-02-07T05:43:53Z"
-  labels:
-    app: webapp
-  name: webapp
+  name: nginx-service
   namespace: test-app
-  resourceVersion: "26644"
-  uid: a7d37b69-50e1-4982-8c49-4cea007b02fd
 spec:
-  clusterIP: 10.100.138.205
-  clusterIPs:
-  - 10.100.138.205
-  internalTrafficPolicy: Cluster
-  ipFamilies:
-  - IPv4
-  ipFamilyPolicy: SingleStack
-  ports:
-  - port: 80
-    protocol: TCP
-    targetPort: 80
-  selector:
-    app: webapp
-  sessionAffinity: None
   type: ClusterIP
-status:
-  loadBalancer: {}
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
