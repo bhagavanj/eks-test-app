@@ -70,7 +70,7 @@ jobs:
     # Step 8: Verify deployment
     - name: Verify deployment
       run: |
-        kubectl rollout status deployment/nginx-deployment -n test-app
+        kubectl rollout status deployment/webapp -n test-app
         kubectl get pods -n test-app
         kubectl get svc -n test-app
         kubectl get ingress -n test-app
